@@ -37,7 +37,7 @@ void reverse(char line[], int length) {
   /* 2 represents '\n' and '\0' at end of line */
   length = length - 2;
 
-	/* 2 here divides the line by half */
+  /* 2 here divides the line by half */
   int middle_point = (length - (length % 2)) / 2;
 
   int counterpart;

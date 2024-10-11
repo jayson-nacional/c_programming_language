@@ -34,14 +34,15 @@ int get_line(char line[], int limit) {
 }
 
 /* this implementation is quite inefficient as it creates new array
-* this can be optimized by using single array 
-* in combination with modulus operator - fold like structure
-* see exercise_1-19_v2.c */
+ * this can be optimized by using single array
+ * in combination with modulus operator - fold like structure
+ * see exercise_1-19_v2.c */
 void reverse(char line[], int length) {
   char reversed[length];
 
+  --length; /* last character represents '\0' terminator */
   for (int i = 0; i < length; i++)
-    reversed[i] = line[length - 1 - i];
+    reversed[i] = line[length - 1 - i]; /* -1 ensures '\n' is not included */
 
-  printf("Reversed: %s\n", reversed);
+  printf("%s", reversed);
 }
