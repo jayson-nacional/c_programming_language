@@ -1,4 +1,4 @@
-/* TODO: Fix the bug, last line chunk must be shown/printed */
+/* Challenge: find the most optimal algorithm */
 #include <stdio.h>
 
 /* Write a program to `fold` long input lines into two or more shorter lines
@@ -12,7 +12,6 @@ int get_line(char line[], int limit);
 void fold_line(char line[], int len);
 
 int main() {
-  /* logic here */
   int len;
   char line[MAXLINE];
 
@@ -29,35 +28,32 @@ void fold_line(char line[], int len) {
 
   int current_index = 0;
   int i;
-  for (i = 0; line[i] != '\0'; i++) {
+  for (i = 0; i < len; i++) {
     line_chunk[current_index] = line[i];
 
-    /* reserve 1 for '\0' */
     if (current_index == FOLD_LENGTH - 1) {
-      printf("current index before fold: %d\n", current_index);
+      int irb; /* index of first blank from right */
 
-      /* get the index of the first blank char from right */
-      int irb;
+      /* irb != -1 validates for scenarios where chunk has no blanks */
       for (irb = current_index;
-           line_chunk[irb] != ' ' && line_chunk[irb] != '\t'; irb--) {
+           line_chunk[irb] != ' ' && line_chunk[irb] != '\t' && irb != -1;
+           irb--) {
       }
 
-      printf("irb: %d\n", irb);
+      int irnb; /* index of 1st non blank char from left of irb */
+      if (irb == -1) /* means that chunk has no blank */
+        irb = FOLD_LENGTH - 1;
 
-      /* get index of 1st non blank char from right of blank */
-      int irnb;
       for (irnb = irb; line_chunk[irnb] == ' ' || line_chunk[irnb] == '\t';
            irnb--)
         ;
-
-      printf("irnb: %d\n", irnb);
 
       int j;
       for (j = 0; j <= irnb; j++)
         printable_chunk[j] = line_chunk[j];
 
       printable_chunk[j] = '\0';
-      printf("printable chunk: %s\n", printable_chunk);
+      printf("%s\n", printable_chunk);
 
       int k;
       irb++;
@@ -67,13 +63,16 @@ void fold_line(char line[], int len) {
       }
 
       current_index = k; /* reset line chunk index */
-      printf("current index: %d\n", current_index);
     } else {
       ++current_index;
     }
   }
 
-  printf("last value of i: %d\n", i);
+  /* print last chunk if available */
+  if (current_index > 0) {
+    line_chunk[current_index] = '\0';
+    printf("%s", line_chunk);
+  }
 }
 
 int get_line(char line[], int limit) {
