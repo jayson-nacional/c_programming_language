@@ -3,40 +3,41 @@
 /* Write a program to remove all comments from a C program. Don't forget to
  * handle quoted strings and character constants properly. C comments don't nest
  */
-#define INSIDE_SINGLE_LINE_COMMENT 1
-#define INSIDE_MULTI_LINE_COMMENT 1
+
 #define OUTSIDE_COMMENT 0
+#define IN_SINGLE_LINE_COMMENT 1
+#define IN_MULTI_LINE_COMMENT 2
+
 int main() {
-  int c;  /* current character */
-  int p;  /* previous character */
-  char c_program[1000];
+  int status = OUTSIDE_COMMENT;
+  char program[1000];
 
+  int c, p;
   int index = 0;
-  int state = OUTSIDE_COMMENT;
   while ((c = getchar()) != EOF) {
-    if (state == OUTSIDE_COMMENT) {
-      if (c == '/' && p == '/') {
-        if (index != 0)
-          --index;
+    if (status == OUTSIDE_COMMENT) {
+      program[index] = c;
+      index++;
 
-        state = INSIDE_SINGLE_LINE_COMMENT;
-      } else if (c == '/' && p != '/') {
-        c_program[index] = c;
-        ++index;
-      } else {
-        c_program[index] = c;
-        ++index;
+      if (c == '/' && p == '/') {
+        status = IN_SINGLE_LINE_COMMENT;
+        index = index - 2;
+      } else if (c == '*' && p == '/') {
+        status = IN_MULTI_LINE_COMMENT;
+        index = index - 2;
       }
-    } else {
-      if (state == INSIDE_SINGLE_LINE_COMMENT && c == '\n')
-        state = OUTSIDE_COMMENT;
+    } else if (status == IN_SINGLE_LINE_COMMENT) {
+      if (c == '\n')
+        status = OUTSIDE_COMMENT;
+    } else if (status == IN_MULTI_LINE_COMMENT) {
+      if (c == '/' && p == '*')
+        status = OUTSIDE_COMMENT;
     }
 
     p = c;
   }
 
-  c_program[index] = '\0';
-  printf("%s", c_program);
+	printf("%s\n", program);
 
   return 0;
 }
