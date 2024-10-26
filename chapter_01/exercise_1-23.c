@@ -7,6 +7,7 @@
 #define OUTSIDE_COMMENT 0
 #define IN_SINGLE_LINE_COMMENT 1
 #define IN_MULTI_LINE_COMMENT 2
+#define INSIDE_STRING 3
 
 int main() {
   int status = OUTSIDE_COMMENT;
@@ -15,14 +16,16 @@ int main() {
   int c, p;
   int index = 0;
   while ((c = getchar()) != EOF) {
-    if (status == OUTSIDE_COMMENT) {
+    if (status == OUTSIDE_COMMENT || status == INSIDE_STRING) {
       program[index] = c;
       index++;
 
-      if (c == '/' && p == '/') {
+      if (c == '"') {
+        status = INSIDE_STRING;
+      } else if (c == '/' && p == '/' && status != INSIDE_STRING) {
         status = IN_SINGLE_LINE_COMMENT;
         index = index - 2;
-      } else if (c == '*' && p == '/') {
+      } else if (c == '*' && p == '/' && status != INSIDE_STRING) {
         status = IN_MULTI_LINE_COMMENT;
         index = index - 2;
       }
@@ -32,12 +35,16 @@ int main() {
     } else if (status == IN_MULTI_LINE_COMMENT) {
       if (c == '/' && p == '*')
         status = OUTSIDE_COMMENT;
+    } else if (status == INSIDE_STRING) {
+      if (c == '"')
+        status = OUTSIDE_COMMENT;
     }
 
     p = c;
   }
 
-	printf("%s\n", program);
+  program[index] = '\0';
+  printf("%s\n", program);
 
   return 0;
 }
