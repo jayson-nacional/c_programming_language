@@ -6,7 +6,10 @@
 #include <limits.h>
 #include <stdio.h>
 
+int power(int base, int exponent);
+
 int main() {
+  printf("From headers\n");
   printf("Char ranges\n");
   printf("Char min: %d\n", CHAR_MIN);
   printf("Char max: %d\n", CHAR_MAX);
@@ -19,5 +22,33 @@ int main() {
   printf("UShort min: %d\n", 0);
   printf("UShort max: %d\n", USHRT_MAX);
 
+  printf("Int ranges\n");
+  printf("Int min: %d\n", INT_MIN);
+  printf("Int max: %d\n", INT_MAX);
+  printf("UInt min: %d\n", 0);
+  printf("UInt max: %d\n", UINT_MAX);
+
+  printf("Long ranges\n");
+  printf("Long min: %ld\n", LONG_MIN);
+  printf("Long max: %ld\n", LONG_MAX);
+  printf("ULong min: %d\n", 0);
+  printf("ULong max: %lu\n", ULONG_MAX);
+
+  printf("FROM COMPUTATION:\n");
+  printf("Signed chars:\n");
+  printf("Chars min: %d\n", -power(2, 8) / 2);
+  printf("Chars max: %d\n", power(2, 8) / 2 - 1);
+  printf("Unsinged chars:\n");
+  printf("UChars min: %d\n", 0);
+  printf("UChars max: %d\n", power(2, 8) - 1);
+
   return 0;
+}
+
+int power(int base, int exponent) {
+  int output = 1;
+  for (int i = 1; i <= exponent; i++)
+    output = output * base;
+
+  return output;
 }
