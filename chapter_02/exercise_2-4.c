@@ -14,8 +14,14 @@ int main() {
   line[2] = 'c';
   line[3] = '\0';
 
-  int char_index = get_char_index(line, 'd');
-  printf("Char index: %d\n", char_index);
+  char line2[100];
+  line2[0] = 'c';
+  line2[1] = 'd';
+  line2[2] = 'e';
+  line2[3] = '\0';
+
+  squeeze(line, line2);
+  printf("%s\n", line);
   return 0;
 }
 
@@ -23,7 +29,7 @@ void squeeze(char s1[], char s2[]) {
   int j = 0;
 
   for (int i = 0; s1[i] != '\0'; i++) {
-    if (get_char_index(s2, s1[i]) != -1)
+    if (get_char_index(s2, s1[i]) == -1)
       s1[j++] = s1[i];
   }
 
