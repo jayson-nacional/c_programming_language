@@ -8,14 +8,14 @@
 #define OUT 0 /* outside a word */
 
 int main() {
-  int i, j, inputLength, state, currentIndex;
+  int i, j, nw, inputLength, state, currentIndex;
   int wordCount[1000];
   int c;
 
   for (i = 0; i < 1000; ++i)
     wordCount[i] = 0;
 
-  inputLength = currentIndex = 0;
+  nw = inputLength = currentIndex = 0;
   state = OUT;
   while ((c = getchar()) != EOF) {
     ++inputLength;
@@ -25,20 +25,21 @@ int main() {
       ++currentIndex;
     } else {
       state = IN;
+      ++nw;
       ++wordCount[currentIndex];
     }
   }
 
-  // render the input length
-  for (j = 0; j < inputLength; j++)
+  // vertical histogram
+  for (i = inputLength - 1; i >= 0; i--) {
     putchar('*');
 
-  putchar('\n');
-
-  for (i = 0; wordCount[i] > 0; i++) {
-    // render based on current word character count
-    for (j = 0; j < wordCount[i]; j++)
-      putchar('*');
+    for (j = 0; j < nw; j++) {
+      if (wordCount[j] > i)
+        putchar('*');
+      else
+        putchar(' ');
+    }
 
     putchar('\n');
   }
