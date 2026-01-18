@@ -75,7 +75,7 @@ int main() {
 
   if (symbols_buff_len > 0) {
     printf("Error: mismatched pair for %c symbol\n",
-           grouping_symbols[symbols_buff_len]);
+           grouping_symbols[symbols_buff_len - 1]);
   } else if (state != ERROR)
     printf("Valid C code\n");
   else if (state == IN_CHAR)
