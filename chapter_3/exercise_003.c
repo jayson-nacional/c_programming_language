@@ -11,20 +11,20 @@ int main() {
   int limit = 1000;
   char s1[limit];
   char s2[limit];
-  // s1[0] = '-';
-  // s1[1] = '-';
-  // s1[2] = 'z';
-  // s1[3] = '0';
-  // s1[4] = '-';
-  // s1[5] = '9';
-  // s1[6] = '\0';
-
   s1[0] = 'a';
   s1[1] = '-';
-  s1[2] = 'b';
-  s1[3] = '-';
+  s1[2] = 't';
+  s1[3] = '0';
   s1[4] = '-';
-  s1[5] = '\0';
+  s1[5] = '9';
+  s1[6] = '\0';
+
+  // s1[0] = 'a';
+  // s1[1] = '-';
+  // s1[2] = 'b';
+  // s1[3] = '-';
+  // s1[4] = '-';
+  // s1[5] = '\0';
 
   expand(s1, s2);
   printf("Output: %s\n", s2);
@@ -38,24 +38,25 @@ void expand(char s1[], char s2[]) {
   j = 0;
   for (i = 0; s1[i] != '\0'; i++) {
     if (s1[i] == '-') {
-      if (i == 0)
+      if (i == 0) // print dash prefixes
         s2[j++] = s1[i];
-      else if (i > 0 && (s1[i - 1] + 1) == s1[i + 1])
+      else if ((s1[i - 1] + 1) ==
+               s1[i + 1]) // chars beside the dash are consecutive
         s2[j++] = s1[i];
-      else if (i > 0 && s1[i - 1] == '-')
+      else if (i > 0 && s1[i - 1] == '-') // consecutive dash
         s2[j++] = s1[i];
       else {
-        if (s1[i - 1] < s1[i + 1]) {
+        if (s1[i - 1] < s1[i + 1]) { // valid sequence
           for (int k = i - 1; s1[k] < s1[i + 1]; s1[k]++) {
             s2[j++] = s1[k];
           }
-        } else {
+        } else { // invalid sequence
           s2[j++] = s1[i];
         }
       }
     } else {
-      if ((s1[i] + 1) < s1[i + 2])
-        ; // skip
+      if ((s1[i] + 1) < s1[i + 2]) // skip reprinting the first char of sequence
+        ;
       else
         s2[j++] = s1[i];
     }
