@@ -10,8 +10,8 @@ void transform_blanks(char t[], char s[]);
 
 int main() {
   int limit = 1000;
-  char t[1000];
-  char s[1000];
+  char t[limit];
+  char s[limit];
   int i;
 
   i = 0;
