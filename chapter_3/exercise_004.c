@@ -2,67 +2,50 @@
 // handle the largest negative number, that is, the value of n equal to -(2
 // raised to wordsize-1). Explain why not. Modify it to print that value
 // correctly, regardless of the machine on which it runs.
+//
+// Explanation: The logic to itoa involves performing modulus towards the input
+// n, in which case doing this against the largest negative integer value causes
+// an overflow. This can be averted by making sure that the variable is capable
+// of holding the value which is done by setting the type to long
 
 #include <limits.h>
 #include <stdio.h>
 
-void itoa(int n, char s[]);
-void itoa2(int n, double s[]);
+void itoa(long n, char s[]);
+void reverse(char s[]);
 
 int main() {
-  double s[100];
+  char s[100];
   printf("%d\n", INT_MIN);
-  itoa2(INT_MIN, s);
-
-  int i = 0;
-  while (s[i] != '\0') {
-    putchar(s[i]);
-    i++;
-  }
+  itoa(INT_MIN, s);
 
   return 0;
 }
 
-void itoa(int n, char s[]) {
-  int i;
-  double sign;
-  double newn;
+void itoa(long n, char s[]) {
+  int i, sign;
 
-  newn = n;
-  if ((sign = newn) < 0) {
-    printf("Was called\n");
-    newn = -newn;
-  }
+  if ((sign = n) < 0)
+    n = -n;
 
   i = 0;
   do {
-    printf("Loop was called 1\n");
-    s[i++] = (newn & 1) + '0';
-    printf("Loop was called 2\n");
+    s[i++] = n % 10 + '0';
   } while ((n /= 10) > 0);
 
   if (sign < 0)
     s[i++] = '-';
   s[i] = '\0';
+  reverse(s);
 }
 
-void itoa2(int n, double s[]) {
+void reverse(char s[]) {
   int i;
-  int sign;
+  for (i = 0; s[i] != '\0'; ++i)
+    ;
 
-  if ((sign = n) < 0) {
-    printf("Was called\n");
-    n = -n;
-  }
+  while (i >= 0)
+    putchar(s[i--]);
 
-  i = 0;
-  do {
-    printf("Loop was called 1\n");
-    s[i++] = (n & 1) + '0';
-    printf("Loop was called 2\n");
-  } while ((n /= 10) > 0);
-
-  if (sign < 0)
-    s[i++] = '-';
-  s[i] = '\0';
+  putchar('\n');
 }
