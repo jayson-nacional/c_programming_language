@@ -6,12 +6,13 @@ void word_count();
 void one_word_per_line();
 void horizontal_word_histogram();
 void vertical_word_histogram();
+int power(int m, int n);
 
 #define OUT 0
 #define IN 1
 
 int main() {
-  vertical_word_histogram();
+  printf("2 raised to the power of 5 is %d\n", power(2, 5));
   return 0;
 }
 
@@ -127,4 +128,15 @@ void vertical_word_histogram() {
     putchar('\n');
     --input_length;
   }
+}
+
+int power(int m, int n) {
+  int result = 1;
+
+  while (n > 0) {
+    result = result * m;
+    --n;
+  }
+
+  return result;
 }
