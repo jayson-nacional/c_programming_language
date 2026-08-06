@@ -60,7 +60,7 @@ int main() {
         }
       }
     } else if (state == IN_CHAR) {
-      if (c == '\'') {
+      if (c == '\'' && p != '\\') {
         state = IN_CODE;
 
         if (placeholder[--index] == '\'') {
@@ -71,7 +71,7 @@ int main() {
         }
       }
     } else if (state == IN_STRING) {
-      if (c == '"') {
+      if (c == '"' && p != '\\') {
         state = IN_CODE;
 
         if (placeholder[--index] == '"') {
